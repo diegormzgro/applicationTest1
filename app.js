@@ -1,7 +1,12 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const Product = require('./models/product')
 const { verifyAccessToken } = require('./helpers/jwt')
+
+var js2xmlparser = require("js2xmlparser");
+
+const xml = require("xml");
 
 require('dotenv/config');
 
@@ -14,11 +19,39 @@ const projectsRouter = require('./routers/projects')
 app.use(express.json());
 
 
+
 //routes
 app.use('/products', producsRouter)
 app.use('/users', usersRouter)
 app.use('/projects', projectsRouter)
 
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + "/home.html");
+})
+
+
+
+app.get('/xml', async (req, res) => {
+    const product = await Product.find({}, {_id:0, user:0, __v:0})
+   
+    let data = {
+        products : [
+            {
+                "product": "description product1"
+            },
+            {
+                "product2": "description product2"
+            },
+            {
+                "product3": "description product3"
+            }
+        ]
+    }
+    
+    
+    res.set('Content-type', 'text/xml')
+    return res.send(xml(data,true))
+})
 
 app.get('/dashboard', verifyAccessToken, (req, res) => {
     res.send('Dashboard page')

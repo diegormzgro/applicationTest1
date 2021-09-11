@@ -17,11 +17,11 @@ function authRole(role){
         const token = bearerToken[1]
 
         let decoded = jwtDecode(token)
-        console.log(decoded)
+        //console.log(decoded)
 
         //const myemail = req.body.email;
        let user = await User.findById(decoded.userId)
-       console.log(user)
+      // console.log(user)
 
        if(!user) {
            return res.status(400).send('invalid request')
@@ -48,7 +48,7 @@ function authGetProject() {
 
         //const myemail = req.body.email;
         let project = await Project.findById(req.params.id)
-        console.log(project)
+      //  console.log(project)
         if(!project) {
             return res.status(400).send('invalid request')
         }
@@ -56,7 +56,7 @@ function authGetProject() {
         let abcde = JSON.stringify(project.user) 
         let var1 = `"${decoded.userId}"`
         
-        console.log(var1, abcde )
+      //  console.log(var1, abcde )
 
        if(var1 !== abcde){
            res.status(401)

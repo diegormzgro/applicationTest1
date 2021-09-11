@@ -5,6 +5,8 @@ const User = require('../models/user');
 const { verifyAccessToken } = require('../helpers/jwt')
 
 
+
+
 router.get(`/`, async (req, res) =>{
     
      Product.find().then(
